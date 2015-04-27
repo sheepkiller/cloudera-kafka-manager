@@ -11,9 +11,10 @@ We use docker to build kakfa-manager. We use Oracle JDK 7 for this build. Modify
 1. Build the docker image and extract target
 ```
 docker build -t build/km-parcels .
-docker run -it --rm -v ${PWD}/parcels/KAFKA_MANAGER-1.2.0:/out clement/km-build cp -Rvfp /kafka-manager-1.2.0 /out/kafka-manager
+docker run -it --rm -v ${PWD}/parcels/KAFKA_MANAGER-1.2.0:/out build/km-build cp -Rvfp /kafka-manager-1.2.0 /out/kafka-manager
 ```
 2. launch ```populate parcels.sh```
+
 ### CSD
 1. go to ```csd```
 2. hack
