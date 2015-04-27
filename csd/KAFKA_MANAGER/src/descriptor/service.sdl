@@ -1,0 +1,110 @@
+{
+  "name" : "KAFKA_MANAGER",
+  "label" : "Kafka Manager",
+  "description" : "A tool for managing Apache Kafka from Yahoo! (https://github.com/yahoo/kafka-manager)",
+  "version" : "1.2.0",
+  "compatibility" : { "cdhVersion" : { "min" : "5", "max" : "5" } },
+  "runAs" : {
+    "user" : "kafka",
+    "group" : "kafka"
+  },
+  "inExpressWizard" : false,
+  "parcel" : {
+    "repoUrl" : "http://parcels.cotds.org/kafka-manager/parcels/latest/",
+    "requiredTags" : ["cdh"],
+    "optionalTags" : ["kafka-plugin"]
+  },
+  "serviceDependencies" : [
+    {
+      "name" : "KAFKA",
+      "required" : "true"
+    }
+  ],
+  "commands" : [ ],
+  "parameters" : [ ],
+  "rolesWithExternalLinks" : ["KAFKA_MANAGER_WEB_UI"],
+  "roles" : [
+    {
+      "name" : "KAFKA_MANAGER_WEB_UI",
+      "label" : "Kafka Manager Web UI",
+      "pluralLabel" : "Kafka Manager Web UI",
+      "startRunner" : {
+        "program" : "scripts/control.sh",
+        "args" : [
+           "start",
+           "",
+           "-Dhttp.port=${kafka.manager.http.port}"
+        ],
+        "environmentVariables" : {
+           "KAFKA_MANAGER_MEMORY" : "${kafka.manager.memory}"
+        }
+      },
+      "externalLink" : {
+        "name" : "kafka_manager_web_ui",
+        "label" : "Kafka Manager Web UI",
+        "url" : "http://${host}:${kafka.manager.http.port}"
+      },
+  "parameters" : [
+    {
+      "name" : "application.secret",
+      "label" : "Application secret",
+      "description" : "The secret key is used to secure cryptographics functions. If you deploy your application to several instances be sure to use the same key!",
+      "default" : "changeme",
+      "configName" : "application.secret",
+      "type" : "string",
+      "configurableInWizard" : true,
+      "required" : "true"
+    },
+    {
+      "name" : "kafka.manager.http.port",
+      "label" : "Kafka Manager port",
+      "description" : "Kafka Manager port",
+      "default" : 9001,
+      "type" : "port",
+      "configurableInWizard" : true,
+      "required" : "true"
+    },
+    {
+      "name" : "pinned-dispatcher.type",
+      "label" : "PinnedDispatcher",
+      "description" : "PinnedDispatcher",
+      "default" : "PinnedDispatcher",
+      "type" : "string",
+      "required" : "true"
+    },
+    {
+      "name" : "pinned-dispatcher.executor",
+      "label" : "thread-pool-executor",
+      "description" : "thread-pool-executor",
+      "default" : "thread-pool-executor",
+      "type" : "string",
+      "required" : "true"
+    },
+    {
+      "name" : "kafka.manager.memory",
+      "label" : "Memory Heap used in Bytes",
+      "description" : "Maximum size for the Java Process heap memory. Measured in bytes.",
+      "required" : "true",
+      "type" : "memory",
+      "unit" : "bytes",
+      "min" : 67108864,
+      "default" : 1073741824,
+      "scaleFactor" : 1.3
+    }
+
+  ],
+      "topology" : { "minInstances" : 1, "maxInstances" : 1 },
+      "configWriter" : {
+            "generators" : [
+                    {
+                     "filename" : "kafka-manager.properties",
+                     "configFormat" : "properties",
+                     "includeParams" :  [ "application.secret","pinned-dispatcher.executor","pinned-dispatcher.type"]
+                    }
+            ]
+     }  
+    }
+  ]
+}
+
+
