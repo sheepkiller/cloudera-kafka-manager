@@ -33,6 +33,9 @@ case $CMD in
   (start)
     exec ${KAFKA_MANAGER_HOME}/bin/kafka-manager -mem $((${KAFKA_MANAGER_MEMORY} / (1024*1024))) -Dpidfile.path=${CONF_DIR}/RUNNING_PID -Dkafka-manager.zkhosts=${ZK_QUORUM} -Dconfig.file=${CONF_DIR}/kafka-manager.properties ${@}  
     ;;
+  (config)
+    exec curl  ${KM_URL} --data "name=${KM_CLUSTER_NAME}&zkHosts=${ZK_QUORUM}&kafkaVersion=${KAFKA_VERSION}" -X POST
+    ;;
   (*)
     log "Don't understand [$CMD]"
     ;;

@@ -5,7 +5,7 @@
 
   <groupId>org.cotds.csd</groupId>
   <artifactId>KAFKA_MANAGER</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.0-2</version>
   <name>The dummy CSD</name>
   <packaging>pom</packaging>
 

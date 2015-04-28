@@ -20,7 +20,23 @@
       "required" : "true"
     }
   ],
-  "commands" : [ ],
+  "commands" : [
+    {
+      "name" : "ConfigureClusterKafka",
+      "label" : "Configure cluster in Kafka",
+      "description" : "Configure cluster in Kafka",
+      "roleName" : "KAFKA_MANAGER_WEB_UI",
+      "roleCommand" : "ConfigureClusterKafka",
+      "runMode" : "single"
+    }
+   ],
+   "serviceInit" : {
+       "postStartSteps" : [
+             {
+                "commandName" : "ConfigureClusterKafka"
+             }
+       ]
+   },
   "parameters" : [ ],
   "rolesWithExternalLinks" : ["KAFKA_MANAGER_WEB_UI"],
   "roles" : [
@@ -44,6 +60,24 @@
         "label" : "Kafka Manager Web UI",
         "url" : "http://${host}:${kafka.manager.http.port}"
       },
+      "commands" : [
+        {
+          "name" : "ConfigureClusterKafka",
+          "label" : "Configure cluster in Kafka",
+          "description" : "Configure cluster in Kafka",
+          "expectedExitCodes" : [0],
+          "requiredRoleState" : "running",
+          "commandRunner" : {
+            "program" : "scripts/control.sh",
+            "args" : ["config"],
+            "environmentVariables" : {
+              "KM_CLUSTER_NAME" : "${kafka.cluster.name}",
+              "KAFKA_VERSION" : "0.8.2.0",
+              "KM_URL" : "http://${host}:${kafka.manager.http.port}/clusters"
+            }
+          }
+        }
+      ],
   "parameters" : [
     {
       "name" : "application.secret",
@@ -52,6 +86,17 @@
       "default" : "changeme",
       "configName" : "application.secret",
       "type" : "string",
+      "configurableInWizard" : true,
+      "required" : "true"
+    },
+    {
+      "name" : "kafka.cluster.name",
+      "label" : "Kafka Cluster Name",
+      "description" : "Name of the cluster in Kafka-Manager",
+      "default" : "cloudera",
+      "configName" : "kafka.cluster.name",
+      "type" : "string",
+      "conformRegex" : "^[-:_a-zA-Z0-9]+",
       "configurableInWizard" : true,
       "required" : "true"
     },
