@@ -1,0 +1,9 @@
+{
+        "kafka-manager": 
+        {
+                "destination": "/usr/lib/kafka-manager",
+                "source": "kafka-manager",
+                "priority": 10,
+                "isDirectory": true
+        }
+}

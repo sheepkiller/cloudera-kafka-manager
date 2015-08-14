@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "name": "KAFKA_MANAGER",
+  "version": "1.2.7",
+  "setActiveSymlink": true,
+
+  "depends": "KAFKA",
+  "replaces": "",
+  "conflicts": "",
+
+  "provides": [
+    "kafka-plugin"
+  ],
+
+  "scripts": {
+    "defines": "kafka_manager_env.sh"
+  },
+
+  "packages": [
+    { "name"   : "kafka-manager",
+      "version": "1.2.5"
+    }
+  ],
+
+  "components": [
+    { "name"       : "kafka-manager",
+      "version"    : "1.2.5",
+      "pkg_version": "1.2.5",
+      "pkg_release": "1"
+    }
+  ],
+
+  "users": {
+  },
+
+  "groups": [
+  ]
+}
